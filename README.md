@@ -1,52 +1,163 @@
-# Docker Angular Sample Project
+# Docker Angular Sample
 
-This project demonstrates how to effectively containerize a modern Angular application using Docker for both **development** and **production** workflows.
 
-It is used as part of the [official Docker Angular sample](https://docs.docker.com/guides/angular/), showcasing industry best practices for front-end containerization—including secure builds, streamlined development workflows, and optimized production delivery.
+A production-grade, developer-focused Docker setup for Angular applications, built to ensure secure, high-performance, and scalable front-end deployments.
 
-**Author**
 
-- [Kristiyan Velkov](https://www.linkedin.com/in/kristiyan-velkov-763130b3/)
-- [Blog - Medium](https://medium.com/@kristiyanvelkov)
-- [Front-end World Newsletter](https://kristiyanvelkov.substack.com)
 
----
+## 🚀 Features
 
-## Security
+- **Security-Focused**: Uses nginx-unprivileged with non-root user for enhanced security
+- **Multi-Stage Build**: Optimized for fast builds and minimal image size
+- **Development-Ready**: Configured for efficient developer experience with hot reload
+- **Production-Optimized**: Performance tuned Nginx configuration for serving Angular SPA
+- **Kubernetes-Ready**: Sample manifests for deploying to Kubernetes included
+- **DevOps-Friendly**: Includes GitHub Actions workflow example
+- **Follows Best Practices**: Implements Docker and Angular best practices
 
-This Docker image has been thoroughly scanned for vulnerabilities to ensure a secure environment for your Angular application. The image has passed all vulnerability assessments using Docker's built-in security tools, including Docker Scout. Regular updates to the base image and dependencies are recommended to maintain a high level of security.
+## 📚 Table of Contents
 
-<div align="center">
-  <img src="./images/angular-security.png" alt="Docker Scout check" />
-</div>
+- [Prerequisites](#prerequisites)
+- [Getting Started](#getting-started)
+- [Development Workflow](#development-workflow)
+- [Production Deployment](#production-deployment)
+- [Docker Configuration](#docker-configuration)
+- [Kubernetes Deployment](#kubernetes-deployment)
+- [Security Features](#security-features)
+- [CI/CD Integration](#cicd-integration)
+- [Contributing](#contributing)
+- [License](#license)
 
----
+## 📋 Prerequisites
 
-### 📌 Contribution
+- Docker and Docker Compose installed on your machine
+- Node.js and npm (for local development outside containers)
+- Kubernetes cluster (optional, for Kubernetes deployment)
 
-Contributions are always welcome, whether it's reporting issues, improving documentation, fixing bugs, or adding new features. This project is for everyone! 💙
-And yes, it's open-source! 🎉
+## 🏁 Getting Started
 
----
+## Clone the repository
 
-### 📬 Contact
+```bash
+git clone https://github.com/ajeetraina/docker-angular-sample.git
+cd docker-angular-sample
+```
 
-Feel free to reach out to me on [LinkedIn](https://www.linkedin.com/in/kristiyan-velkov-763130b3/) or [Medium](https://medium.com/@kristiyanvelkov).
 
----
+### Build the Docker image
 
-### ☕ Support My Work
+```
+docker build -t docker-angular-sample .
+```
 
-If you find my work helpful and would like to support me, consider donating via:
+### Run the container
 
-- [Revolut](https://revolut.me/kristiyanvelkov)
-- [Buy Me a Coffee](https://www.buymeacoffee.com/kristiyanvelkov)
-- [GitHub Sponsors](https://github.com/sponsors/kristiyan-velkov)
+```
+docker run -p 8080:8080 docker-angular-sample
+Run with Docker Compose
+```
 
-Your support helps me continue creating valuable content for the community. Thank you! 🚀
+### Start the application
 
----
+```
+docker compose up -d
+```
 
-### License
+Visit http://localhost:8080 in your browser
 
-This project is licensed under the MIT License.
+## 💻 Development Workflow
+
+This project supports an efficient development workflow with hot-reload capabilities:
+
+### Start the development environment
+
+```
+docker compose -f docker-compose.dev.yml up
+```
+
+The app will be available at http://localhost:4200 with hot-reload enabled
+
+## 🚢 Production Deployment
+
+The production Docker image is optimized for security and performance:
+
+- Multi-stage build process minimizes image size
+- Uses nginx-unprivileged for enhanced security
+- Optimized Nginx configuration for Angular applications
+- Content compression and caching enabled
+
+
+### Build production image
+
+```
+docker build -t docker-angular-sample:prod .
+```
+
+### Run production container
+
+```
+docker run -p 8080:8080 docker-angular-sample:prod
+```
+
+## 🔧 Docker Configuration
+
+### Dockerfile Details
+
+The project uses a multi-stage Dockerfile:
+
+- Builder Stage: Uses Node.js to build the Angular application
+- Production Stage: Uses nginx-unprivileged to serve the built application
+
+## Key security and performance features:
+
+- Non-root user execution
+- Optimized layer caching
+- Minimized image size
+- Custom Nginx configuration for Angular
+
+
+
+## ☸️ Kubernetes Deployment
+
+The repository includes a sample Kubernetes manifest for deploying the application:
+
+### Apply the Kubernetes manifest
+
+```
+kubectl apply -f angular-sample-kubernetes.yaml
+```
+
+Make sure to update the image reference in the manifest with your own Docker image.
+
+## 🔒 Security Features
+
+This project implements several security best practices:
+
+- Non-Root Execution: Uses nginx-unprivileged image to run as non-root
+- Minimal Dependencies: Reduces attack surface with minimal base images
+- Regular Security Scanning: Docker Scout integration to identify vulnerabilities
+- Proper Port Configuration: Uses non-privileged ports (8080 instead of 80)
+- Optimized Configuration: Custom Nginx settings to enhance security
+
+## 🔄 CI/CD Integration
+
+The repository includes a GitHub Actions workflow for continuous integration and deployment:
+
+- Automated building and testing
+- Security scanning with Docker Scout
+- Deployment to Docker Hub or your container registry
+- Kubernetes deployment options
+
+## 👥 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+- Fork the repository
+- Create your feature branch (git checkout -b feature/amazing-feature)
+- Commit your changes (git commit -m 'Add some amazing feature')
+- Push to the branch (git push origin feature/amazing-feature)
+- Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
